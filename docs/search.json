@@ -63,13 +63,6 @@
     "text": "The cleaning utilities turn messy CSV exports into consistent columns that downstream analysis can rely on.\n\nimport pandas as pd\nfrom triathlon_project import clean_results_frame\n\nraw = pd.DataFrame({\n    \"Name\": [\"Athlete A\", \"Athlete B\"],\n    \"gender\": [\"F\", \"M\"],\n    \"Overall Time\": [\"10:15:30\", \"11:05:12\"],\n    \"Swim Time\": [\"01:05:00\", \"01:15:40\"],\n    \"Bike Time\": [\"05:15:00\", \"05:40:30\"],\n    \"Run Time\": [\"03:45:30\", \"04:00:00\"],\n    \"Transition 1 Time\": [\"00:04:00\", \"00:05:30\"],\n    \"Transition 2 Time\": [\"00:05:00\", \"00:04:30\"],\n})\n\ncleaned = clean_results_frame(raw)\ncleaned[[\n    \"Name\",\n    \"gender_norm\",\n    \"Overall Time (sec)\",\n    \"Transitions (sec)\",\n    \"Finished\"\n]]\n\n\n\n\n\n\n\n\nName\ngender_norm\nOverall Time (sec)\nTransitions (sec)\nFinished\n\n\n\n\n0\nAthlete A\nFemale\n36930\n540\nTrue\n\n\n1\nAthlete B\nMale\n39912\n600\nTrue"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "The Triathlon Python Package",
-    "section": "",
-    "text": "Athletes transitioning from swim to bike to run during a triathlon\n\n\nTriathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.\nDocumentation here.\nGet started here.\nReview the technical report."
-  },
-  {
     "objectID": "Tutorial.html#load-and-clean-raw-results",
     "href": "Tutorial.html#load-and-clean-raw-results",
     "title": "Triathlon Project",
@@ -89,5 +82,12 @@
     "title": "Triathlon Project",
     "section": "3. Run the full pipeline",
     "text": "3. Run the full pipeline\nThe high-level pipeline accepts either a dataframe or a CSV path and returns a dictionary with the common insights used in the Streamlit demo.\n\nfrom triathlon_project import run_analysis_pipeline\n\nresults = run_analysis_pipeline(cleaned)\nresults.keys()\n\nRunning analysis pipeline...\nAnalysis pipeline finished.\n\n\ndict_keys(['participants', 'top_finishers', 'discipline_correlations'])\n\n\nAnd that’s it! Upload your race results in a CSV, let the package clean and analyze, and reuse the outputs in notebooks, scripts, or dashboards."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "The Triathlon Python Package",
+    "section": "",
+    "text": "Athletes transitioning from swim to bike to run during a triathlon\n\n\nTriathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.\nDocumentation here.\nGet started here.\nReview the technical report."
   }
 ]
