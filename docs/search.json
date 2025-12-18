@@ -88,6 +88,6 @@
     "href": "index.html",
     "title": "The Triathlon Python Package",
     "section": "",
-    "text": "Athletes transitioning from swim to bike to run during a triathlon\n\n\nTriathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.\nDocumentation here.\nGet started here.\nReview the technical report."
+    "text": "Athletes transitioning from swim to bike to run during a triathlon\n\n\nTriathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.\nDocumentation here.\nAccess the streamlit app here.\nReview the technical report."
   }
 ]

@@ -193,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-and-clean-raw-results" class="level2">
 <h2 class="anchored" data-anchor-id="load-and-clean-raw-results">1. Load and clean raw results</h2>
 <p>The cleaning utilities turn messy CSV exports into consistent columns that downstream analysis can rely on.</p>
-<div id="3364dd03" class="cell" data-execution_count="2">
+<div id="f9911cb5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> triathlon_project <span class="im">import</span> clean_results_frame</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summarize-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="summarize-metrics">2. Summarize metrics</h2>
 <p>Once you have a cleaned dataframe you can compute participant metrics or highlight top performers.</p>
-<div id="c1cccb8f" class="cell" data-execution_count="3">
+<div id="14f3c4b2" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> triathlon_project <span class="im">import</span> summarize_participants, top_finishers_by_gender</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summarize_participants(cleaned)</span>
@@ -271,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  'female': 1}</code></pre>
 </div>
 </div>
-<div id="2e5ec69e" class="cell" data-execution_count="4">
+<div id="bc8dea53" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> top_finishers_by_gender(cleaned[cleaned[<span class="st">"Finished"</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>top[<span class="st">"Female"</span>][[<span class="st">"Name"</span>, <span class="st">"Overall Time (sec)"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -302,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="run-the-full-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="run-the-full-pipeline">3. Run the full pipeline</h2>
 <p>The high-level pipeline accepts either a dataframe or a CSV path and returns a dictionary with the common insights used in the Streamlit demo.</p>
-<div id="7a54825f" class="cell" data-execution_count="5">
+<div id="1b1e7dc6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> triathlon_project <span class="im">import</span> run_analysis_pipeline</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> run_analysis_pipeline(cleaned)</span>
