@@ -1,7 +1,8 @@
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
-from triathlon_project.cleaning import clean_results_frame
+from cleaning import clean_results_frame
+
 
 COUNTRY_TO_CONTINENT = {
     "United States": "North America",

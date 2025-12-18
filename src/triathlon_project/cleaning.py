@@ -58,14 +58,6 @@ def _add_time_columns(df: pd.DataFrame, columns: Iterable[str]) -> None:
 
 
 def clean_results_frame(frame: pd.DataFrame) -> pd.DataFrame:
-	"""
-	Return a cleaned copy of the raw triathlon results dataframe.
-
-	- Parses time columns into numeric seconds.
-	- Derives transition totals when both splits exist.
-	- Normalizes gender labels.
-	- Adds a Finished boolean flag.
-	"""
 	df = frame.copy()
 
 	_add_time_columns(df, TIME_COLUMNS)

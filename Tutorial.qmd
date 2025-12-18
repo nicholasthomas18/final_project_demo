@@ -13,18 +13,60 @@ if project_src not in sys.path:
     sys.path.insert(0, project_src)
 ```
 
-Here is how you use my package:
+## 1. Load and clean raw results
+
+The cleaning utilities turn messy CSV exports into consistent columns that downstream analysis can rely on.
 
 ```{python}
-from triathlon_project import add
+import pandas as pd
+from triathlon_project import clean_results_frame
 
-print(add(2, 19))
+raw = pd.DataFrame({
+    "Name": ["Athlete A", "Athlete B"],
+    "gender": ["F", "M"],
+    "Overall Time": ["10:15:30", "11:05:12"],
+    "Swim Time": ["01:05:00", "01:15:40"],
+    "Bike Time": ["05:15:00", "05:40:30"],
+    "Run Time": ["03:45:30", "04:00:00"],
+    "Transition 1 Time": ["00:04:00", "00:05:30"],
+    "Transition 2 Time": ["00:05:00", "00:04:30"],
+})
+
+cleaned = clean_results_frame(raw)
+cleaned[[
+    "Name",
+    "gender_norm",
+    "Overall Time (sec)",
+    "Transitions (sec)",
+    "Finished"
+]]
 ```
 
+## 2. Summarize metrics
+
+Once you have a cleaned dataframe you can compute participant metrics or highlight top performers.
 
 ```{python}
-from triathlon_project import run_analysis_pipeline, run_cleaning_pipeling
+from triathlon_project import summarize_participants, top_finishers_by_gender
 
-run_cleaning_pipeling()
-run_analysis_pipeline()
+summary = summarize_participants(cleaned)
+summary
 ```
+
+```{python}
+top = top_finishers_by_gender(cleaned[cleaned["Finished"]])
+top["Female"][["Name", "Overall Time (sec)"]]
+```
+
+## 3. Run the full pipeline
+
+The high-level pipeline accepts either a dataframe or a CSV path and returns a dictionary with the common insights used in the Streamlit demo.
+
+```{python}
+from triathlon_project import run_analysis_pipeline
+
+results = run_analysis_pipeline(cleaned)
+results.keys()
+```
+
+And that’s it! Upload your race results in a CSV, let the package clean and analyze, and reuse the outputs in notebooks, scripts, or dashboards. 

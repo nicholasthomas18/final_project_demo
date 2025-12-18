@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -119,8 +154,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#clean_results_frameframepd.dataframe" id="toc-clean_results_frameframepd.dataframe" class="nav-link active" data-scroll-target="#clean_results_frameframepd.dataframe"><code>clean_results_frame(frame:pd.DataFrame)</code></a></li>
+  <li><a href="#run_cleaning_pipelingsource-pd.dataframestrpathnonenone" id="toc-run_cleaning_pipelingsource-pd.dataframestrpathnonenone" class="nav-link" data-scroll-target="#run_cleaning_pipelingsource-pd.dataframestrpathnonenone"><code>run_cleaning_pipeling(source: pd.DataFrame|str|Path|None=None)</code></a></li>
+  <li><a href="#summarize_participantsdfpd.dataframe" id="toc-summarize_participantsdfpd.dataframe" class="nav-link" data-scroll-target="#summarize_participantsdfpd.dataframe"><code>summarize_participants(df:pd.DataFrame)</code></a></li>
+  <li><a href="#top_finishers_by_genderfin_dfpd.dataframe" id="toc-top_finishers_by_genderfin_dfpd.dataframe" class="nav-link" data-scroll-target="#top_finishers_by_genderfin_dfpd.dataframe"><code>top_finishers_by_gender(fin_df:pd.DataFrame,</code></a></li>
+  <li><a href="#gendersfemalemalelimit3" id="toc-gendersfemalemalelimit3" class="nav-link" data-scroll-target="#gendersfemalemalelimit3"><code>genders=("Female","Male"),limit=3)</code></a></li>
+  <li><a href="#discipline_correlationsfin_dfpd.dataframemin_samplesint10" id="toc-discipline_correlationsfin_dfpd.dataframemin_samplesint10" class="nav-link" data-scroll-target="#discipline_correlationsfin_dfpd.dataframemin_samplesint10"><code>discipline_correlations(fin_df:pd.DataFrame,min_samples:int=10)</code></a></li>
+  <li><a href="#best_predictorfin_dfpd.dataframe" id="toc-best_predictorfin_dfpd.dataframe" class="nav-link" data-scroll-target="#best_predictorfin_dfpd.dataframe"><code>best_predictor(fin_df:pd.DataFrame)</code></a></li>
+  <li><a href="#run_analysis_pipelinesourcepd.dataframestrpathnonenone" id="toc-run_analysis_pipelinesourcepd.dataframestrpathnonenone" class="nav-link" data-scroll-target="#run_analysis_pipelinesourcepd.dataframestrpathnonenone"><code>run_analysis_pipeline(source:pd.DataFrame|str|Path|None=None)</code></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -144,9 +192,152 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Functions:</p>
+<p>Below is a reference guide for the functions used by the <code>triathlon_project</code> package. Import them via:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> triathlon_project <span class="im">import</span> (</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    clean_results_frame,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    run_cleaning_pipeling,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    summarize_participants,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    top_finishers_by_gender,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    discipline_correlations,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    best_predictor,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    run_analysis_pipeline,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="clean_results_frameframepd.dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="clean_results_frameframepd.dataframe"><code>clean_results_frame(frame:pd.DataFrame)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> frame.copy()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    _add_time_columns(df, TIME_COLUMNS)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> {<span class="st">"Transition 1 Time (sec)"</span>, <span class="st">"Transition 2 Time (sec)"</span>}.issubset(df.columns):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"Transitions (sec)"</span>] <span class="op">=</span> (</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"Transition 1 Time (sec)"</span>] <span class="op">+</span> df[<span class="st">"Transition 2 Time (sec)"</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"gender"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"gender_norm"</span>] <span class="op">=</span> df[<span class="st">"gender"</span>].<span class="bu">apply</span>(normalize_gender)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"Overall Time (sec)"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"Finished"</span>] <span class="op">=</span> df[<span class="st">"Overall Time (sec)"</span>].notna() <span class="op">&amp;</span> (</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"Overall Time (sec)"</span>] <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"Finished"</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"Finish"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"Finished"</span>] <span class="op">=</span> df[<span class="st">"Finished"</span>] <span class="op">&amp;</span> (</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"Finish"</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.upper().<span class="bu">str</span>.strip() <span class="op">==</span> <span class="st">"FIN"</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Creates a cleaned copy of raw triathlon results. It parses common time columns into numeric seconds, derives combined transition totals, normalizes <code>gender</code> labels, and adds a <code>Finished</code> boolean flag when possible. Use this function whenever you need consistent columns before analysis or visualization.</p>
+</section>
+<section id="run_cleaning_pipelingsource-pd.dataframestrpathnonenone" class="level3">
+<h3 class="anchored" data-anchor-id="run_cleaning_pipelingsource-pd.dataframestrpathnonenone"><code>run_cleaning_pipeling(source: pd.DataFrame|str|Path|None=None)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_cleaning_pipeling(source: <span class="bu">str</span> <span class="op">|</span> Path <span class="op">|</span> pd.DataFrame <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Running cleaning pipeline..."</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> source <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.DataFrame()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(source, (<span class="bu">str</span>, Path)):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        raw <span class="op">=</span> pd.read_csv(source)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        raw <span class="op">=</span> source</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    cleaned <span class="op">=</span> clean_results_frame(raw)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Parsed </span><span class="sc">{</span><span class="bu">len</span>(cleaned)<span class="sc">:,}</span><span class="ss"> records."</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cleaned</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Runs the cleaning pipeline. If you pass a dataframe or path to a CSV file it returns the cleaned dataframe and prints simple progress messages. Calling it with no arguments just logs “Running cleaning pipeline…” to mirror the behaviour used in the starter tests/tutorial.</p>
+</section>
+<section id="summarize_participantsdfpd.dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="summarize_participantsdfpd.dataframe"><code>summarize_participants(df:pd.DataFrame)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize_participants(df: pd.DataFrame) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, <span class="bu">int</span>]:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="bu">len</span>(df)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    finishers <span class="op">=</span> <span class="bu">int</span>(df.get(<span class="st">"Finished"</span>, pd.Series(dtype<span class="op">=</span><span class="bu">int</span>)).<span class="bu">sum</span>())</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    male <span class="op">=</span> female <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"gender_norm"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        male <span class="op">=</span> <span class="bu">int</span>((df[<span class="st">"gender_norm"</span>] <span class="op">==</span> <span class="st">"Male"</span>).<span class="bu">sum</span>())</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        female <span class="op">=</span> <span class="bu">int</span>((df[<span class="st">"gender_norm"</span>] <span class="op">==</span> <span class="st">"Female"</span>).<span class="bu">sum</span>())</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"participants"</span>: total,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"finishers"</span>: finishers,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"did_not_finish"</span>: total <span class="op">-</span> finishers,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"male"</span>: male,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"female"</span>: female,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Computes summaries from a cleaned dataframe: total records, finisher counts, DNFs, and male/female totals (when <code>gender_norm</code> exists). Ideal for populating overview metric cards in a dashboard.</p>
+</section>
+<section id="top_finishers_by_genderfin_dfpd.dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="top_finishers_by_genderfin_dfpd.dataframe"><code>top_finishers_by_gender(fin_df:pd.DataFrame,</code></h3>
+</section>
+<section id="gendersfemalemalelimit3" class="level3">
+<h3 class="anchored" data-anchor-id="gendersfemalemalelimit3"><code>genders=("Female","Male"),limit=3)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> top_finishers_by_gender(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    fin_df: pd.DataFrame, genders: Iterable[<span class="bu">str</span>] <span class="op">=</span> (<span class="st">"Female"</span>, <span class="st">"Male"</span>), limit: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, pd.DataFrame]:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    results: Dict[<span class="bu">str</span>, pd.DataFrame] <span class="op">=</span> {}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> gender <span class="kw">in</span> genders:</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">"gender_norm"</span> <span class="kw">not</span> <span class="kw">in</span> fin_df.columns:</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            results[gender] <span class="op">=</span> fin_df.iloc[<span class="dv">0</span>:<span class="dv">0</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        sub <span class="op">=</span> fin_df[fin_df[<span class="st">"gender_norm"</span>] <span class="op">==</span> gender]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        results[gender] <span class="op">=</span> sub.nsmallest(limit, <span class="st">"Overall Time (sec)"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Returns the fastest <code>limit</code> finishers for each gender provided. Input should already be filtered to finishers (e.g., <code>fin_df = df[df["Finished"]]</code>). Useful for spotlight tables showing podium athletes.</p>
+</section>
+<section id="discipline_correlationsfin_dfpd.dataframemin_samplesint10" class="level3">
+<h3 class="anchored" data-anchor-id="discipline_correlationsfin_dfpd.dataframemin_samplesint10"><code>discipline_correlations(fin_df:pd.DataFrame,min_samples:int=10)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> discipline_correlations(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    fin_df: pd.DataFrame, min_samples: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, <span class="bu">float</span>]:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    out: Dict[<span class="bu">str</span>, <span class="bu">float</span>] <span class="op">=</span> {}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> label, column <span class="kw">in</span> DISCIPLINE_COLUMNS.items():</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> column <span class="kw">not</span> <span class="kw">in</span> fin_df.columns <span class="kw">or</span> <span class="st">"Overall Time (sec)"</span> <span class="kw">not</span> <span class="kw">in</span> fin_df.columns:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        valid <span class="op">=</span> fin_df.dropna(subset<span class="op">=</span>[column, <span class="st">"Overall Time (sec)"</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(valid) <span class="op">&lt;=</span> min_samples:</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        out[label] <span class="op">=</span> valid[column].corr(valid[<span class="st">"Overall Time (sec)"</span>])</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Computes Pearson correlations between each split (<code>Swim/Bike/Run/Transitions</code>) and overall finishing time, skipping splits that lack data or sufficient samples. Helps identify which discipline best predicts overall performance.</p>
+</section>
+<section id="best_predictorfin_dfpd.dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="best_predictorfin_dfpd.dataframe"><code>best_predictor(fin_df:pd.DataFrame)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> best_predictor(fin_df: pd.DataFrame) <span class="op">-&gt;</span> Tuple[<span class="bu">str</span>, <span class="bu">float</span>] <span class="op">|</span> Tuple[<span class="va">None</span>, <span class="va">None</span>]:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    cors <span class="op">=</span> discipline_correlations(fin_df)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> cors:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    best_col <span class="op">=</span> <span class="bu">max</span>(cors, key<span class="op">=</span>cors.get)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_col, cors[best_col]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Function that calls <code>discipline_correlations</code> and returns the discipline with the highest correlation to overall time. If no correlations are available it returns <code>(None, None)</code>.</p>
+</section>
+<section id="run_analysis_pipelinesourcepd.dataframestrpathnonenone" class="level3">
+<h3 class="anchored" data-anchor-id="run_analysis_pipelinesourcepd.dataframestrpathnonenone"><code>run_analysis_pipeline(source:pd.DataFrame|str|Path|None=None)</code></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_analysis_pipeline(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    source: pd.DataFrame <span class="op">|</span> <span class="bu">str</span> <span class="op">|</span> Path <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Dict[<span class="bu">str</span>, <span class="bu">object</span>]:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Running analysis pipeline..."</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> source <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    raw <span class="op">=</span> _ensure_dataframe(source)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    cleaned <span class="op">=</span> clean_results_frame(raw)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"Finished"</span> <span class="kw">in</span> cleaned.columns:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        finished_mask <span class="op">=</span> cleaned[<span class="st">"Finished"</span>].astype(<span class="bu">bool</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        finished_mask <span class="op">=</span> pd.Series(<span class="va">False</span>, index<span class="op">=</span>cleaned.index)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    fin_df <span class="op">=</span> cleaned[finished_mask]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> {</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"participants"</span>: summarize_participants(cleaned),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"top_finishers"</span>: top_finishers_by_gender(fin_df),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"discipline_correlations"</span>: discipline_correlations(fin_df),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Analysis pipeline finished."</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This function reads the raw data, cleans it with <code>clean_results_frame</code>, and returns a dictionary containing participant summaries, top finishers, and discipline correlations. When called without a source it simply prints a status message so scripted demos/tests keep passing.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

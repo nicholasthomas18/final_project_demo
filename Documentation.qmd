@@ -2,4 +2,168 @@
 title: "Documentation"
 ---
 
-Functions:
+Below is a reference guide for the functions used by the `triathlon_project` package. Import them via:
+
+```python
+from triathlon_project import (
+    clean_results_frame,
+    run_cleaning_pipeling,
+    summarize_participants,
+    top_finishers_by_gender,
+    discipline_correlations,
+    best_predictor,
+    run_analysis_pipeline,
+)
+```
+
+### `clean_results_frame(frame:pd.DataFrame)`
+```python
+	df = frame.copy()
+
+	_add_time_columns(df, TIME_COLUMNS)
+
+	if {"Transition 1 Time (sec)", "Transition 2 Time (sec)"}.issubset(df.columns):
+		df["Transitions (sec)"] = (
+			df["Transition 1 Time (sec)"] + df["Transition 2 Time (sec)"]
+		)
+
+	if "gender" in df.columns:
+		df["gender_norm"] = df["gender"].apply(normalize_gender)
+
+	if "Overall Time (sec)" in df.columns:
+		df["Finished"] = df["Overall Time (sec)"].notna() & (
+			df["Overall Time (sec)"] > 0
+		)
+	else:
+		df["Finished"] = False
+
+	if "Finish" in df.columns:
+		df["Finished"] = df["Finished"] & (
+			df["Finish"].astype(str).str.upper().str.strip() == "FIN"
+		)
+
+	return df
+
+```
+
+Creates a cleaned copy of raw triathlon results. It parses common time columns into numeric seconds, derives combined transition totals, normalizes `gender` labels, and adds a `Finished` boolean flag when possible. Use this function whenever you need consistent columns before analysis or visualization.
+
+### `run_cleaning_pipeling(source: pd.DataFrame|str|Path|None=None)`
+
+```python
+def run_cleaning_pipeling(source: str | Path | pd.DataFrame | None = None) -> pd.DataFrame:
+	print("Running cleaning pipeline...")
+	if source is None:
+		return pd.DataFrame()
+
+	if isinstance(source, (str, Path)):
+		raw = pd.read_csv(source)
+	else:
+		raw = source
+
+	cleaned = clean_results_frame(raw)
+	print(f"Parsed {len(cleaned):,} records.")
+	return cleaned
+
+```
+
+Runs the cleaning pipeline. If you pass a dataframe or path to a CSV file it returns the cleaned dataframe and prints simple progress messages. Calling it with no arguments just logs “Running cleaning pipeline…” to mirror the behaviour used in the starter tests/tutorial.
+
+### `summarize_participants(df:pd.DataFrame)`
+
+```python
+def summarize_participants(df: pd.DataFrame) -> Dict[str, int]:
+	total = len(df)
+	finishers = int(df.get("Finished", pd.Series(dtype=int)).sum())
+	male = female = 0
+	if "gender_norm" in df.columns:
+		male = int((df["gender_norm"] == "Male").sum())
+		female = int((df["gender_norm"] == "Female").sum())
+	return {
+		"participants": total,
+		"finishers": finishers,
+		"did_not_finish": total - finishers,
+		"male": male,
+		"female": female,
+	}
+```
+Computes summaries from a cleaned dataframe: total records, finisher counts, DNFs, and male/female totals (when `gender_norm` exists). Ideal for populating overview metric cards in a dashboard.
+
+### `top_finishers_by_gender(fin_df:pd.DataFrame,`
+### `genders=("Female","Male"),limit=3)`
+
+```python
+def top_finishers_by_gender(
+	fin_df: pd.DataFrame, genders: Iterable[str] = ("Female", "Male"), limit: int = 3
+) -> Dict[str, pd.DataFrame]:
+	results: Dict[str, pd.DataFrame] = {}
+	for gender in genders:
+		if "gender_norm" not in fin_df.columns:
+			results[gender] = fin_df.iloc[0:0]
+			continue
+		sub = fin_df[fin_df["gender_norm"] == gender]
+		results[gender] = sub.nsmallest(limit, "Overall Time (sec)")
+	return results
+
+```
+
+Returns the fastest `limit` finishers for each gender provided. Input should already be filtered to finishers (e.g., `fin_df = df[df["Finished"]]`). Useful for spotlight tables showing podium athletes.
+
+### `discipline_correlations(fin_df:pd.DataFrame,min_samples:int=10)`
+```python
+def discipline_correlations(
+	fin_df: pd.DataFrame, min_samples: int = 10
+) -> Dict[str, float]:
+	out: Dict[str, float] = {}
+	for label, column in DISCIPLINE_COLUMNS.items():
+		if column not in fin_df.columns or "Overall Time (sec)" not in fin_df.columns:
+			continue
+		valid = fin_df.dropna(subset=[column, "Overall Time (sec)"])
+		if len(valid) <= min_samples:
+			continue
+		out[label] = valid[column].corr(valid["Overall Time (sec)"])
+	return out
+```
+
+Computes Pearson correlations between each split (`Swim/Bike/Run/Transitions`) and overall finishing time, skipping splits that lack data or sufficient samples. Helps identify which discipline best predicts overall performance.
+
+### `best_predictor(fin_df:pd.DataFrame)`
+```python
+def best_predictor(fin_df: pd.DataFrame) -> Tuple[str, float] | Tuple[None, None]:
+	cors = discipline_correlations(fin_df)
+	if not cors:
+		return None, None
+	best_col = max(cors, key=cors.get)
+	return best_col, cors[best_col]
+
+```
+
+Function that calls `discipline_correlations` and returns the discipline with the highest correlation to overall time. If no correlations are available it returns `(None, None)`.
+
+### `run_analysis_pipeline(source:pd.DataFrame|str|Path|None=None)`
+```python
+def run_analysis_pipeline(
+	source: pd.DataFrame | str | Path | None = None,
+) -> Dict[str, object]:
+	print("Running analysis pipeline...")
+	if source is None:
+		return {}
+
+	raw = _ensure_dataframe(source)
+	cleaned = clean_results_frame(raw)
+	if "Finished" in cleaned.columns:
+		finished_mask = cleaned["Finished"].astype(bool)
+	else:
+		finished_mask = pd.Series(False, index=cleaned.index)
+	fin_df = cleaned[finished_mask]
+
+	result = {
+		"participants": summarize_participants(cleaned),
+		"top_finishers": top_finishers_by_gender(fin_df),
+		"discipline_correlations": discipline_correlations(fin_df),
+	}
+	print("Analysis pipeline finished.")
+	return result
+```
+
+This function reads the raw data, cleans it with `clean_results_frame`, and returns a dictionary containing participant summaries, top finishers, and discipline correlations. When called without a source it simply prints a status message so scripted demos/tests keep passing.

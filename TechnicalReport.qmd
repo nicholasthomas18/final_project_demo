@@ -13,9 +13,9 @@ Ironman results files are often hard to analyze directly because times can appea
 
 ## Data Sources
 
-- _Primary dataset:_ St. George Ironman https://www.coachcox.co.uk/imstats/race/22/results/ 
-- _Supplementary data:_ Ironman Races https://www.ironman.com/races?utm_source=discontinued-website&utm_medium=redirect&utm_campaign=oldraces&facet%5B1%5D=region%3ANorth%20America 
-- _Data access notes:_ Data are provided by the user at runtime. No automated refresh or external API calls are used. 
+- _Primary dataset:_ [St. George Ironman](https://www.coachcox.co.uk/imstats/race/22/results/)
+- _Supplementary data:_ [Ironman Races](https://www.ironman.com/races?utm_source=discontinued-website&utm_medium=redirect&utm_campaign=oldraces&facet%5B1%5D=region%3ANorth%20America)
+- _Data access notes:_ Data are provided by the user at runtime. No automated refresh or external API calls are used.
 
 ## Methodology
 
@@ -52,10 +52,10 @@ Ironman results files are often hard to analyze directly because times can appea
 ## Results & Diagnostics
 
 The app provides summary statistics and figures to analyze triathlon times. Statistics include:
-    - Number of Participants
-    - Male / Female Ratio
-    - Best Predictor of Overall Time 
-    - Preparation Insights
+- Number of Participants
+- Male / Female Ratio
+- Best Predictor of Overall Time 
+- Preparation Insights
 
 Examples can be found [here](Tutorial.qmd).
 
@@ -65,8 +65,8 @@ Examples can be found [here](Tutorial.qmd).
 This app works well for exploring results and getting benchmarks, but it assumes the CSV uses the expected column names and it does not fully check that all splits add up correctly.
 
 Some next steps:
-    - Add a few quick tests to make sure time parsing and the “Finished” rule work every time
-    - Improve the country to continent mapping, or let users upload their own mapping
-    - Add simple checks (no negative times, no missing key splits, splits roughly match overall time)
+- Add a few quick tests to make sure time parsing and the “Finished” rule work every time
+- Improve the country to continent mapping, or let users upload their own mapping
+- Add simple checks (no negative times, no missing key splits, splits roughly match overall time)
 
 Overall, the project turns raw Ironman results into clean, trustworthy summaries that athletes can quickly use to understand performance and set realistic goals.

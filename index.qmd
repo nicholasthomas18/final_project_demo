@@ -2,6 +2,9 @@
 title: "The Triathlon Python Package"
 ---
 
+![Athletes transitioning from swim to bike to run during a triathlon](https://www.sportsdestinations.com/sites/sportsdestinations.com/files/sports_destination_management/nodes/2019/16292/SportsOutlook1.jpg)
+
+
 Triathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.
 
 Documentation [here](Documentation.qmd).
@@ -9,3 +12,4 @@ Documentation [here](Documentation.qmd).
 Get started [here](Tutorial.qmd).
 
 Review the [technical report](TechnicalReport.qmd).
+
