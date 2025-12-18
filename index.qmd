@@ -9,7 +9,7 @@ Triathlon results are packed with information about performance, but the raw dat
 
 Documentation [here](Documentation.qmd).
 
-Get started [here](Tutorial.qmd).
+Access the streamlit app [here](https://triathlon-analysis-package-pbqssb8v5nr29qhab3mggh.streamlit.app/).
 
 Review the [technical report](TechnicalReport.qmd).
 
