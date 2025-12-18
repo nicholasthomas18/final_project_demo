@@ -1,10 +1,52 @@
 [
   {
-    "objectID": "Tutorial.html",
-    "href": "Tutorial.html",
-    "title": "Getting Started",
+    "objectID": "TechnicalReport.html",
+    "href": "TechnicalReport.html",
+    "title": "Technical Report",
     "section": "",
-    "text": "Here is how you use my package:\n\nfrom final_project_demo import add\n\nprint(add(2, 19))\n\n21\n\n\n\nfrom final_project_demo import run_analysis_pipeline, run_cleaning_pipeling\n\nrun_cleaning_pipeling()\nrun_analysis_pipeline()\n\nRunning cleaning pipeline...\nRunning analysis pipeline..."
+    "text": "This project delivers a Streamlit app and supporting Python functions to clean Ironman results data and generate practical performance insights. The app reports participation counts, continent breakdowns, top finishers by gender, which discipline correlates most with overall time, and benchmarks for a typical finisher and the slowest finisher. The main value is turning messy race result exports into consistent, interpretable summaries."
+  },
+  {
+    "objectID": "TechnicalReport.html#executive-summary",
+    "href": "TechnicalReport.html#executive-summary",
+    "title": "Technical Report",
+    "section": "",
+    "text": "This project delivers a Streamlit app and supporting Python functions to clean Ironman results data and generate practical performance insights. The app reports participation counts, continent breakdowns, top finishers by gender, which discipline correlates most with overall time, and benchmarks for a typical finisher and the slowest finisher. The main value is turning messy race result exports into consistent, interpretable summaries."
+  },
+  {
+    "objectID": "TechnicalReport.html#project-context",
+    "href": "TechnicalReport.html#project-context",
+    "title": "Technical Report",
+    "section": "Project Context",
+    "text": "Project Context\nIronman results files are often hard to analyze directly because times can appear in different formats and some rows represent DNFs or missing splits. The goal is to provide a reliable workflow that cleans triathlon data and then communicates insights interactively. Success is measured by correct parsing and filtering of results, clear summary outputs, and a simple upload-to-insight user experience in Streamlit."
+  },
+  {
+    "objectID": "TechnicalReport.html#data-sources",
+    "href": "TechnicalReport.html#data-sources",
+    "title": "Technical Report",
+    "section": "Data Sources",
+    "text": "Data Sources\n\nPrimary dataset: St. George Ironman https://www.coachcox.co.uk/imstats/race/22/results/\nSupplementary data: Ironman Races https://www.ironman.com/races?utm_source=discontinued-website&utm_medium=redirect&utm_campaign=oldraces&facet%5B1%5D=region%3ANorth%20America\nData access notes: Data are provided by the user at runtime. No automated refresh or external API calls are used."
+  },
+  {
+    "objectID": "TechnicalReport.html#methodology",
+    "href": "TechnicalReport.html#methodology",
+    "title": "Technical Report",
+    "section": "Methodology",
+    "text": "Methodology\n\nData acquisition:\n\nThe app reads the uploaded CSV using pandas (pd.read_csv(uploaded)), then copies the data into a working dataframe for transformations. Original data was complied from multiple sources.\n\nCleaning pipeline:\n\nTime parsing: parse_time_to_seconds() converts time strings into seconds for all TIME_COLS, handling mm:ss and hh:mm:ss and returning NaN on malformed values.\nTransitions: creates Transitions (sec) as T1 + T2 when available.\nGender normalization: normalize_gender() maps m/f variants to Male/Female and title-cases other values.\nFinisher logic: sets Finished to Overall Time (sec) present and greater than 0, and if a Finish column exists, additionally requires FIN.\n\nAnalysis workflow:\n\nParticipant summary: total participants, finishers, DNFs, and Male/Female counts.\nGeography: continent pie chart with small groups bundled into Other.\nPerformance tables: top 3 athletes per gender by overall time (finishers only), showing split and transitions breakdowns.\nDiscipline impact: correlation of each discipline with overall time, selecting the highest correlation as the “best predictor.”\nBenchmarks: typical finisher (closest to median overall time), slowest finisher profile, and slowest split times that still finished.\nExtra diagnostics: transitions vs overall scatter plot with correlation; age-group median times from Division patterns like M25-29 and F30-34.\n\nTooling:\n\nPackages: Python with pandas, numpy, regex, Streamlit, and matplotlib.\nReproducibility is supported and rerunnable on any dataset with the expected columns."
+  },
+  {
+    "objectID": "TechnicalReport.html#results-diagnostics",
+    "href": "TechnicalReport.html#results-diagnostics",
+    "title": "Technical Report",
+    "section": "Results & Diagnostics",
+    "text": "Results & Diagnostics\nThe app provides summary statistics and figures to analyze triathlon times. Statistics include: - Number of Participants - Male / Female Ratio - Best Predictor of Overall Time - Preparation Insights\nExamples can be found here."
+  },
+  {
+    "objectID": "TechnicalReport.html#discussion-next-steps",
+    "href": "TechnicalReport.html#discussion-next-steps",
+    "title": "Technical Report",
+    "section": "Discussion & Next Steps",
+    "text": "Discussion & Next Steps\nThis app works well for exploring results and getting benchmarks, but it assumes the CSV uses the expected column names and it does not fully check that all splits add up correctly.\nSome next steps: - Add a few quick tests to make sure time parsing and the “Finished” rule work every time - Improve the country to continent mapping, or let users upload their own mapping - Add simple checks (no negative times, no missing key splits, splits roughly match overall time)\nOverall, the project turns raw Ironman results into clean, trustworthy summaries that athletes can quickly use to understand performance and set realistic goals."
   },
   {
     "objectID": "Documentation.html",
@@ -14,59 +56,17 @@
     "text": "Functions:"
   },
   {
+    "objectID": "Tutorial.html",
+    "href": "Tutorial.html",
+    "title": "Triathlon Project",
+    "section": "",
+    "text": "Here is how you use my package:\n\nfrom triathlon_project import add\n\nprint(add(2, 19))\n\n21\n\n\n\nfrom triathlon_project import run_analysis_pipeline, run_cleaning_pipeling\n\nrun_cleaning_pipeling()\nrun_analysis_pipeline()\n\nRunning cleaning pipeline...\nRunning analysis pipeline..."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "The Triathlon Python Package",
     "section": "",
     "text": "Triathlon results are packed with information about performance, but the raw data is often inconsistent and hard to analyze. This project is a Python package that collects, cleans, and analyzes triathlon split times to produce clear metrics and visuals across swim, bike, and run, with an accompanying Streamlit app for interactive exploration.\nDocumentation here.\nGet started here.\nReview the technical report."
-  },
-  {
-    "objectID": "TechnicalReport.html",
-    "href": "TechnicalReport.html",
-    "title": "Technical Report",
-    "section": "",
-    "text": "TODO: Provide a concise overview of the project objectives, key findings, and actionable recommendations."
-  },
-  {
-    "objectID": "TechnicalReport.html#executive-summary",
-    "href": "TechnicalReport.html#executive-summary",
-    "title": "Technical Report",
-    "section": "",
-    "text": "TODO: Provide a concise overview of the project objectives, key findings, and actionable recommendations."
-  },
-  {
-    "objectID": "TechnicalReport.html#project-context",
-    "href": "TechnicalReport.html#project-context",
-    "title": "Technical Report",
-    "section": "Project Context",
-    "text": "Project Context\nTODO: Describe the motivation, stakeholders, and success criteria for this analysis."
-  },
-  {
-    "objectID": "TechnicalReport.html#data-sources",
-    "href": "TechnicalReport.html#data-sources",
-    "title": "Technical Report",
-    "section": "Data Sources",
-    "text": "Data Sources\n\nPrimary dataset: TODO - name and link\nSupplementary data: TODO - describe any external references\nData access notes: TODO - mention licenses or refresh cadence"
-  },
-  {
-    "objectID": "TechnicalReport.html#methodology",
-    "href": "TechnicalReport.html#methodology",
-    "title": "Technical Report",
-    "section": "Methodology",
-    "text": "Methodology\n\nData acquisition: TODO - outline collection scripts/APIs\nCleaning pipeline: TODO - summarize transformations and validations implemented\nAnalysis workflow: TODO - describe statistical or modeling techniques\nTooling: TODO - list packages, environments, and reproducibility steps"
-  },
-  {
-    "objectID": "TechnicalReport.html#results-diagnostics",
-    "href": "TechnicalReport.html#results-diagnostics",
-    "title": "Technical Report",
-    "section": "Results & Diagnostics",
-    "text": "Results & Diagnostics\nTODO: Summarize the main metrics, charts, or model diagnostics produced. Include links to figures or tables once available."
-  },
-  {
-    "objectID": "TechnicalReport.html#discussion-next-steps",
-    "href": "TechnicalReport.html#discussion-next-steps",
-    "title": "Technical Report",
-    "section": "Discussion & Next Steps",
-    "text": "Discussion & Next Steps\nTODO: Interpret the results, note limitations, and capture open questions or future experiments."
   }
 ]

@@ -1,19 +1,29 @@
 ---
-title: "Getting Started"
+title: "Triathlon Project"
 jupyter: python3
 ---
+
+```{python}
+#| echo: false
+import os
+import sys
+
+project_src = os.path.abspath("src")
+if project_src not in sys.path:
+    sys.path.insert(0, project_src)
+```
 
 Here is how you use my package:
 
 ```{python}
-from final_project_demo import add
+from triathlon_project import add
 
 print(add(2, 19))
 ```
 
 
 ```{python}
-from final_project_demo import run_analysis_pipeline, run_cleaning_pipeling
+from triathlon_project import run_analysis_pipeline, run_cleaning_pipeling
 
 run_cleaning_pipeling()
 run_analysis_pipeline()
